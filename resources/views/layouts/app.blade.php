@@ -6,7 +6,6 @@
     <title>SafePet</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style>
-        /* CSS para esconder a barra de rolagem mas permitir descer o menu */
         .scrollbar-hide::-webkit-scrollbar { display: none; }
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
@@ -15,13 +14,10 @@
 
     <aside class="w-20 hover:w-64 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white flex flex-col fixed h-full z-50 shadow-2xl transition-all duration-300 ease-in-out overflow-hidden group">
         
-        <!-- 🏠 Cabeçalho do Menu / Logo (Agora é um Link Clicável para a Home) -->
         <a href="{{ route('vitrine.index') }}" title="Ir para a Página Inicial" class="h-20 flex items-center px-4 border-b border-emerald-500/50 flex-shrink-0 hover:bg-black/10 transition-colors cursor-pointer">
-            <!-- Container do ícone para ficar sempre centralizado -->
             <div class="w-12 flex justify-center flex-shrink-0">
                 <span class="text-4xl">🐾</span>
             </div>
-            <!-- Texto (Aparece só no hover) -->
             <span class="text-2xl font-black tracking-tight text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap ml-4">
                 SafePet
             </span>
@@ -63,7 +59,7 @@
                 <span class="font-medium text-sm ml-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">Termos de Uso</span>
             </a>
             
-            <a href="{{ route('privacidade') }}" class="flex items-center px-4 py-3 mx-2 rounded-xl hover:bg-white/10 transition text-emerald-100 hover:text-white">
+            <a href="{{ route('politica') }}" class="flex items-center px-4 py-3 mx-2 rounded-xl hover:bg-white/10 transition text-emerald-100 hover:text-white">
                 <div class="w-12 flex justify-center flex-shrink-0">
                     <span class="text-xl">🔒</span>
                 </div>
@@ -80,6 +76,12 @@
                    class="font-semibold text-sm text-gray-600 hover:text-emerald-600 transition flex items-center gap-2">
                     <span>👤 Meu Painel</span>
                 </a>
+                <form action="{{ route('logout') }}" method="POST" class="inline">
+                    @csrf
+                    <button type="submit" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-xl text-sm transition">
+                        Sair
+                    </button>
+                </form>
             @else
                 <a href="{{ route('login') }}" class="font-semibold text-sm text-gray-600 hover:text-emerald-600 transition">
                     Entrar
