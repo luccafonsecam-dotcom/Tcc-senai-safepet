@@ -86,7 +86,7 @@
                 <span class="font-medium text-sm ml-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">Termos de Uso</span>
             </a>
             
-            <a href="{{ route('politica') }}" class="flex items-center px-4 py-3 mx-2 rounded-xl hover:bg-white/10 transition text-emerald-100 hover:text-white">
+            <a href="{{ route('privacidade') }}" class="flex items-center px-4 py-3 mx-2 rounded-xl hover:bg-white/10 transition text-emerald-100 hover:text-white">
                 <div class="w-12 flex justify-center flex-shrink-0">
                     <span class="text-xl">🔒</span>
                 </div>

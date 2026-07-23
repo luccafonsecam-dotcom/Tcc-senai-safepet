@@ -68,7 +68,18 @@
             <div class="bg-white dark:bg-gray-800 rounded-3xl overflow-hidden shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-lg transition duration-300 flex flex-col justify-between group">
                 <div>
                     <div class="overflow-hidden relative h-56 bg-gray-50 dark:bg-gray-700">
-                        <img src="{{ $animal->foto_url }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <div class="overflow-hidden relative h-56 bg-gray-50 dark:bg-gray-700">
+    @if($animal->foto_url && (Str::startsWith($animal->foto_url, 'http://') || Str::startsWith($animal->foto_url, 'https://')))
+        <img src="{{ $animal->foto_url }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" alt="{{ $animal->nome }}">
+    @elseif($animal->foto_url)
+        <img src="{{ asset('storage/' . $animal->foto_url) }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" alt="{{ $animal->nome }}">
+    @else
+        <div class="w-full h-full flex items-center justify-center text-3xl">🐾</div>
+    @endif
+    <span class="absolute top-3 right-3 bg-white/90 dark:bg-gray-900/80 backdrop-blur-sm text-gray-800 dark:text-gray-100 text-xs font-bold px-3 py-1.5 rounded-full shadow-sm">
+        {{ $animal->porte }}
+    </span>
+</div>
                         <span class="absolute top-3 right-3 bg-white/90 dark:bg-gray-900/80 backdrop-blur-sm text-gray-800 dark:text-gray-100 text-xs font-bold px-3 py-1.5 rounded-full shadow-sm">
                             {{ $animal->porte }}
                         </span>

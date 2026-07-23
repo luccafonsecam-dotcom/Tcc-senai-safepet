@@ -14,7 +14,7 @@ Route::get('/animal/{id}', [VitrineController::class, 'show'])->name('vitrine.sh
 
 // 📄 Páginas Institucionais (Unificadas e corrigidas)
 Route::get('/termos-de-servico', function () { return view('paginas.termos'); })->name('termos');
-Route::get('/politica-de-privacidade', function () { return view('paginas.politica'); })->name('politica'); // 👈 Apontando para o seu arquivo já existente
+Route::get('/politica-de-privacidade', function () { return view('paginas.politica'); })->name('privacidade'); // 👈 Apontando para o seu arquivo já existente
 Route::get('/ongs', function () { return view('paginas.ongs'); })->name('ongs');
 Route::get('/sobre', function () { return view('paginas.sobre'); })->name('sobre');
 
