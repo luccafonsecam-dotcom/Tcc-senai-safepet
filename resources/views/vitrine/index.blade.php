@@ -7,44 +7,44 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         
         <!-- Card Adotar -->
-        <a href="{{ route('vitrine.index') }}" class="bg-white border border-gray-100 hover:border-pink-300 hover:shadow-xl rounded-3xl p-8 flex items-center gap-6 transition duration-300 group">
+        <a href="{{ route('vitrine.index') }}" class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 hover:border-pink-300 dark:hover:border-pink-400 hover:shadow-xl rounded-3xl p-8 flex items-center gap-6 transition duration-300 group">
             <div class="text-6xl group-hover:scale-110 transition duration-300">🐶</div>
             <div>
-                <h2 class="text-2xl font-black text-gray-800 group-hover:text-pink-600 transition">Quero Adotar</h2>
-                <p class="text-gray-500 text-sm mt-1 leading-relaxed">Encontre um novo melhor amigo que está esperando ansiosamente por você.</p>
+                <h2 class="text-2xl font-black text-gray-800 dark:text-gray-100 group-hover:text-pink-600 dark:group-hover:text-pink-400 transition">Quero Adotar</h2>
+                <p class="text-gray-500 dark:text-gray-400 text-sm mt-1 leading-relaxed">Encontre um novo melhor amigo que está esperando ansiosamente por você.</p>
             </div>
         </a>
 
         <!-- Card Doar -->
-        <a href="{{ route('comunidade.ver', 'doar') }}" class="bg-white border border-gray-100 hover:border-amber-300 hover:shadow-xl rounded-3xl p-8 flex items-center gap-6 transition duration-300 group">
+        <a href="{{ route('comunidade.ver', 'doar') }}" class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 hover:border-amber-300 dark:hover:border-amber-400 hover:shadow-xl rounded-3xl p-8 flex items-center gap-6 transition duration-300 group">
             <div class="text-6xl group-hover:scale-110 transition duration-300">📢</div>
             <div>
-                <h2 class="text-2xl font-black text-gray-800 group-hover:text-amber-500 transition">Quero Doar</h2>
-                <p class="text-gray-500 text-sm mt-1 leading-relaxed">Ajude um animalzinho a encontrar um lar cheio de amor e carinho.</p>
+                <h2 class="text-2xl font-black text-gray-800 dark:text-gray-100 group-hover:text-amber-500 dark:group-hover:text-amber-400 transition">Quero Doar</h2>
+                <p class="text-gray-500 dark:text-gray-400 text-sm mt-1 leading-relaxed">Ajude um animalzinho a encontrar um lar cheio de amor e carinho.</p>
             </div>
         </a>
 
     </div>
 
     <!-- 🏠 CABEÇALHO DA VITRINE DE PETS -->
-    <div class="space-y-2 pt-4 border-t border-gray-200/60">
-        <h1 class="text-2xl font-extrabold text-gray-800 tracking-tight">Animais aguardando adoção 🐾</h1>
+    <div class="space-y-2 pt-4 border-t border-gray-200/60 dark:border-gray-700/60">
+        <h1 class="text-2xl font-extrabold text-gray-800 dark:text-gray-100 tracking-tight">Animais aguardando adoção 🐾</h1>
     </div>
 
     <!-- 🔍 BARRA DE FILTROS INTELIGENTES -->
-    <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
+    <div class="bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700">
         <form action="{{ route('vitrine.index') }}" method="GET" class="grid grid-cols-1 sm:grid-cols-3 gap-4 items-end">
             <div>
-                <label class="block text-xs font-bold text-gray-400 uppercase mb-1 ml-1">Espécie</label>
-                <select name="especie" class="w-full bg-gray-50 border border-gray-200 rounded-xl p-2.5 text-sm font-medium text-gray-700 focus:ring-2 focus:ring-indigo-500 outline-none transition">
+                <label class="block text-xs font-bold text-gray-400 dark:text-gray-500 uppercase mb-1 ml-1">Espécie</label>
+                <select name="especie" class="w-full bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl p-2.5 text-sm font-medium text-gray-700 dark:text-gray-100 focus:ring-2 focus:ring-indigo-500 outline-none transition">
                     <option value="">Todos os animais</option>
                     <option value="Cachorro" {{ request('especie') == 'Cachorro' ? 'selected' : '' }}>🐶 Cachorros</option>
                     <option value="Gato" {{ request('especie') == 'Gato' ? 'selected' : '' }}>🐱 Gatos</option>
                 </select>
             </div>
             <div>
-                <label class="block text-xs font-bold text-gray-400 uppercase mb-1 ml-1">Porte</label>
-                <select name="porte" class="w-full bg-gray-50 border border-gray-200 rounded-xl p-2.5 text-sm font-medium text-gray-700 focus:ring-2 focus:ring-indigo-500 outline-none transition">
+                <label class="block text-xs font-bold text-gray-400 dark:text-gray-500 uppercase mb-1 ml-1">Porte</label>
+                <select name="porte" class="w-full bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl p-2.5 text-sm font-medium text-gray-700 dark:text-gray-100 focus:ring-2 focus:ring-indigo-500 outline-none transition">
                     <option value="">Todos os tamanhos</option>
                     <option value="Pequeno" {{ request('porte') == 'Pequeno' ? 'selected' : '' }}>Pequeno</option>
                     <option value="Médio" {{ request('porte') == 'Médio' ? 'selected' : '' }}>Médio</option>
@@ -56,7 +56,7 @@
                     Filtrar Pets
                 </button>
                 @if(request('especie') || request('porte'))
-                    <a href="{{ route('vitrine.index') }}" class="bg-gray-100 hover:bg-gray-200 text-gray-600 font-semibold p-2.5 rounded-xl text-sm transition flex items-center justify-center" title="Limpar Filtros">✕</a>
+                    <a href="{{ route('vitrine.index') }}" class="bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300 font-semibold p-2.5 rounded-xl text-sm transition flex items-center justify-center" title="Limpar Filtros">✕</a>
                 @endif
             </div>
         </form>
@@ -65,33 +65,33 @@
     <!-- 🐕 GRID DE ANIMAIS -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         @forelse($animais as $animal)
-            <div class="bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-lg transition duration-300 flex flex-col justify-between group">
+            <div class="bg-white dark:bg-gray-800 rounded-3xl overflow-hidden shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-lg transition duration-300 flex flex-col justify-between group">
                 <div>
-                    <div class="overflow-hidden relative h-56 bg-gray-50">
+                    <div class="overflow-hidden relative h-56 bg-gray-50 dark:bg-gray-700">
                         <img src="{{ $animal->foto_url }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                        <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm text-gray-800 text-xs font-bold px-3 py-1.5 rounded-full shadow-sm">
+                        <span class="absolute top-3 right-3 bg-white/90 dark:bg-gray-900/80 backdrop-blur-sm text-gray-800 dark:text-gray-100 text-xs font-bold px-3 py-1.5 rounded-full shadow-sm">
                             {{ $animal->porte }}
                         </span>
                     </div>
                     <div class="p-6 space-y-2">
                         <div class="flex justify-between items-center">
-                            <h2 class="text-xl font-bold text-gray-800">{{ $animal->nome }}</h2>
-                            <span class="text-xs font-semibold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-lg">{{ $animal->idade }}</span>
+                            <h2 class="text-xl font-bold text-gray-800 dark:text-gray-100">{{ $animal->nome }}</h2>
+                            <span class="text-xs font-semibold text-indigo-600 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-900/50 px-2.5 py-1 rounded-lg">{{ $animal->idade }}</span>
                         </div>
-                        <p class="text-gray-500 text-sm line-clamp-2">{{ $animal->descricao }}</p>
+                        <p class="text-gray-500 dark:text-gray-400 text-sm line-clamp-2">{{ $animal->descricao }}</p>
                     </div>
                 </div>
                 <div class="p-6 pt-0">
-                    <a href="{{ route('vitrine.show', $animal->id) }}" class="block w-full text-center bg-gray-50 hover:bg-indigo-600 hover:text-white border border-gray-100 text-gray-700 font-bold py-3.5 rounded-2xl text-sm transition duration-200">
+                    <a href="{{ route('vitrine.show', $animal->id) }}" class="block w-full text-center bg-gray-50 dark:bg-gray-700 hover:bg-indigo-600 dark:hover:bg-indigo-600 hover:text-white border border-gray-100 dark:border-gray-600 text-gray-700 dark:text-gray-200 font-bold py-3.5 rounded-2xl text-sm transition duration-200">
                         Conhecer História ➔
                     </a>
                 </div>
             </div>
         @empty
-            <div class="col-span-full bg-white text-center p-16 rounded-3xl border border-gray-100 space-y-3 shadow-sm">
+            <div class="col-span-full bg-white dark:bg-gray-800 text-center p-16 rounded-3xl border border-gray-100 dark:border-gray-700 space-y-3 shadow-sm">
                 <span class="text-4xl">😿</span>
-                <h3 class="text-gray-700 font-bold text-lg">Nenhum pet encontrado</h3>
-                <p class="text-gray-400 text-sm max-w-xs mx-auto">Não encontramos nenhum animalzinho com essas características no momento.</p>
+                <h3 class="text-gray-700 dark:text-gray-200 font-bold text-lg">Nenhum pet encontrado</h3>
+                <p class="text-gray-400 dark:text-gray-500 text-sm max-w-xs mx-auto">Não encontramos nenhum animalzinho com essas características no momento.</p>
             </div>
         @endforelse
     </div>

@@ -26,11 +26,10 @@
             <input type="password" name="password" required class="w-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded-lg p-2.5 text-gray-900 dark:!text-white focus:ring-2 focus:ring-indigo-500 outline-none transition duration-300">
         </div>
 
-        <button type="submit" class="w-full bg-indigo-600 text-white py-2.5 rounded-lg font-semibold hover:bg-indigo-700 transition shadow-sm">
+        <button type="submit" class="w-full bg-indigo-600 text-white py-2.5 rounded-lg font-semibold hover:bg-indigo-700 transition shadow-sm mt-2">
             Entrar
         </button>
     </form>
-    
 
     {{-- Links de navegação inferiores organizados --}}
     <div class="mt-6 space-y-3 text-center text-sm">
@@ -51,7 +50,8 @@
         <div class="pt-2 flex justify-center space-x-4 text-xs text-gray-400 dark:text-gray-500">
             <a href="{{ route('termos') }}" class="hover:underline">Termos de Serviço</a>
             <span>•</span>
-            <a href="{{ route('politica') }}" class="hover:underline">Política de Privacidade</a>
+            <a href="{{ route('privacidade') }}" class="hover:underline">Política de Privacidade</a>
         </div>
     </div>
+</div>
 @endsection

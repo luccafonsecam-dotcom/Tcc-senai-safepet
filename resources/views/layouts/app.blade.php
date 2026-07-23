@@ -4,14 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SafePet</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class'
+        }
+    </script>
+
+    <script>
+    // Verifica as preferências anteriores do usuário
+    if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+    } else {
+        document.documentElement.classList.remove('dark');
+    }
+
+    // Função global para alternar o tema
+    function toggleDarkMode() {
+        if (document.documentElement.classList.contains('dark')) {
+            document.documentElement.classList.remove('dark');
+            localStorage.setItem('theme', 'light');
+        } else {
+            document.documentElement.classList.add('dark');
+            localStorage.setItem('theme', 'dark');
+        }
+    }
+    </script>
+
     <style>
         /* CSS para esconder a barra de rolagem mas permitir descer o menu */
         .scrollbar-hide::-webkit-scrollbar { display: none; }
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
-<body class="bg-gray-50 font-sans antialiased flex min-h-screen overflow-x-hidden">
+<body class="bg-gray-50 dark:bg-gray-900 font-sans antialiased flex min-h-screen overflow-x-hidden transition-colors duration-300">
 
     <aside class="w-20 hover:w-64 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white flex flex-col fixed h-full z-50 shadow-2xl transition-all duration-300 ease-in-out overflow-hidden group">
         
@@ -74,20 +101,25 @@
 
     <div class="flex-1 ml-20 flex flex-col min-h-screen">
         
-        <header class="bg-white/80 backdrop-blur-md border-b border-gray-100 h-16 flex items-center justify-end px-8 sticky top-0 z-40 gap-4">
+        <header class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md border-b border-gray-100 dark:border-gray-700 h-16 flex items-center justify-end px-8 sticky top-0 z-40 gap-4 transition-colors duration-300">
             @auth
                 <a href="{{ Auth::user()->tipo_acesso === 'admin' ? route('admin.triagem') : route('candidato.painel') }}" 
-                   class="font-semibold text-sm text-gray-600 hover:text-emerald-600 transition flex items-center gap-2">
+                   class="font-semibold text-sm text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition flex items-center gap-2">
                     <span>👤 Meu Painel</span>
                 </a>
             @else
-                <a href="{{ route('login') }}" class="font-semibold text-sm text-gray-600 hover:text-emerald-600 transition">
+                <a href="{{ route('login') }}" class="font-semibold text-sm text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition">
                     Entrar
                 </a>
                 <a href="{{ route('cadastro') }}" class="bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white font-bold text-xs py-2.5 px-5 rounded-xl shadow-sm transition">
                     Criar Conta
                 </a>
             @endauth
+
+            <button onclick="toggleDarkMode()" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 font-medium transition-colors duration-300 focus:outline-none flex items-center justify-center border border-gray-200 dark:border-gray-600 w-10 h-10">
+                <span class="block dark:hidden text-lg">🌙</span>
+                <span class="hidden dark:block text-lg">☀️</span>
+            </button>
         </header>
 
         <main class="flex-grow p-8">
