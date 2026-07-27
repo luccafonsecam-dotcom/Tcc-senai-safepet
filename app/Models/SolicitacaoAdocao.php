@@ -23,11 +23,10 @@ class SolicitacaoAdocao extends Model
         'motivo_adocao',
         'status',
         'concordancia_casa',
-    '    consciencia_financeira',
+        'consciencia_financeira',
         'plano_viagem',
         'comportamento_animal',
-    
-        ];
+    ];
 
     public function usuario()
     {

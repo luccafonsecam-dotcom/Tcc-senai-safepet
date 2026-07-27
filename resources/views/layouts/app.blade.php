@@ -99,6 +99,9 @@
         
         <header class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md border-b border-gray-100 dark:border-gray-700 h-16 flex items-center justify-end px-8 sticky top-0 z-40 gap-4 transition-colors duration-300">
             @auth
+                <a href="{{ route('perfil.meusDados') }}" class="font-semibold text-sm text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition">
+                    📍 Meus Dados
+                </a>
                 <a href="{{ Auth::user()->tipo_acesso === 'admin' ? route('admin.triagem') : route('candidato.painel') }}" 
                    class="font-semibold text-sm text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition flex items-center gap-2">
                     <span>👤 Meu Painel</span>

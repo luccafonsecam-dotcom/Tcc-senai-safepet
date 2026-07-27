@@ -6,6 +6,7 @@ use App\Http\Controllers\VitrineController;
 use App\Http\Controllers\CandidatoController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnuncioController;
+use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 
 // 🐶 Vitrine (Página Inicial)
@@ -43,6 +44,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/adotar/{animal_id}', [CandidatoController::class, 'formularioAdocao'])->name('adocao.formulario');
     Route::post('/adotar/{animal_id}', [CandidatoController::class, 'submeterFormulario'])->name('adocao.submeter');
     Route::get('/painel-candidato', [CandidatoController::class, 'painel'])->name('candidato.painel');
+
+    // Perfil / Meus Dados
+    Route::get('/meus-dados', [PerfilController::class, 'meusDados'])->name('perfil.meusDados');
+    Route::put('/meus-dados', [PerfilController::class, 'atualizar'])->name('perfil.atualizar');
 
     // Painel Administrativo (ONG / Protetor)
     Route::middleware(['can:access-admin'])->group(function () {
