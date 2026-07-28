@@ -13,14 +13,12 @@
     </script>
 
     <script>
-    // Verifica as preferências anteriores do usuário
     if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
         document.documentElement.classList.add('dark');
     } else {
         document.documentElement.classList.remove('dark');
     }
 
-    // Função global para alternar o tema
     function toggleDarkMode() {
         if (document.documentElement.classList.contains('dark')) {
             document.documentElement.classList.remove('dark');
@@ -36,12 +34,14 @@
         .scrollbar-hide::-webkit-scrollbar { display: none; }
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
+
+    @stack('styles')
 </head>
 <body class="bg-gray-50 dark:bg-gray-900 font-sans antialiased flex min-h-screen overflow-x-hidden transition-colors duration-300">
 
     <aside class="w-20 hover:w-64 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white flex flex-col fixed h-full z-50 shadow-2xl transition-all duration-300 ease-in-out overflow-hidden group">
         
-        <a href="{{ route('vitrine.index') }}" title="Ir para a Página Inicial" class="h-20 flex items-center px-4 border-b border-emerald-500/50 flex-shrink-0 hover:bg-black/10 transition-colors cursor-pointer">
+        <a href="{{ route('vitrine.index') }}" title="Ir para a Página Inicial" class="h-16 flex items-center px-4 border-b border-emerald-500/50 flex-shrink-0 hover:bg-black/10 transition-colors cursor-pointer">
             <div class="w-12 flex justify-center flex-shrink-0">
                 <span class="text-4xl">🐾</span>
             </div>
@@ -52,24 +52,42 @@
 
         <nav class="flex-1 py-6 flex flex-col gap-1 overflow-y-auto scrollbar-hide">
             
+            <p class="text-[10px] font-bold text-emerald-200 uppercase tracking-wider px-6 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">Adoção</p>
+
+            <a href="{{ route('vitrine.index') }}" class="flex items-center px-4 py-3 mx-2 rounded-xl hover:bg-white/10 transition">
+                <div class="w-12 flex justify-center flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <span class="text-2xl">🏠</span>
+                </div>
+                <span class="font-medium text-sm ml-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">Quero Adotar</span>
+            </a>
+
+            <a href="{{ route('comunidade.ver', 'doar') }}" class="flex items-center px-4 py-3 mx-2 rounded-xl hover:bg-white/10 transition">
+                <div class="w-12 flex justify-center flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <span class="text-2xl">❤️</span>
+                </div>
+                <span class="font-medium text-sm ml-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">Quero Doar</span>
+            </a>
+
+            <hr class="border-emerald-500/50 my-4 mx-4">
+
             <p class="text-[10px] font-bold text-emerald-200 uppercase tracking-wider px-6 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">Serviços</p>
 
             <a href="{{ route('comunidade.ver', 'perdi') }}" class="flex items-center px-4 py-3 mx-2 rounded-xl hover:bg-white/10 transition">
-                <div class="w-12 flex justify-center flex-shrink-0">
+                <div class="w-12 flex justify-center flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <span class="text-2xl">⚠️</span>
                 </div>
                 <span class="font-medium text-sm ml-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">Perdi um Pet</span>
             </a>
 
             <a href="{{ route('comunidade.ver', 'encontrei') }}" class="flex items-center px-4 py-3 mx-2 rounded-xl hover:bg-white/10 transition">
-                <div class="w-12 flex justify-center flex-shrink-0">
+                <div class="w-12 flex justify-center flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <span class="text-2xl">🧭</span>
                 </div>
                 <span class="font-medium text-sm ml-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">Encontrei um Pet</span>
             </a>
 
             <a href="{{ route('ongs') }}" class="flex items-center px-4 py-3 mx-2 rounded-xl hover:bg-white/10 transition">
-                <div class="w-12 flex justify-center flex-shrink-0">
+                <div class="w-12 flex justify-center flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <span class="text-2xl">🏥</span>
                 </div>
                 <span class="font-medium text-sm ml-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">ONGs Parceiras</span>
@@ -80,14 +98,14 @@
             <p class="text-[10px] font-bold text-emerald-200 uppercase tracking-wider px-6 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">Informações</p>
 
             <a href="{{ route('termos') }}" class="flex items-center px-4 py-3 mx-2 rounded-xl hover:bg-white/10 transition text-emerald-100 hover:text-white">
-                <div class="w-12 flex justify-center flex-shrink-0">
+                <div class="w-12 flex justify-center flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <span class="text-xl">📄</span>
                 </div>
                 <span class="font-medium text-sm ml-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">Termos de Uso</span>
             </a>
             
             <a href="{{ route('privacidade') }}" class="flex items-center px-4 py-3 mx-2 rounded-xl hover:bg-white/10 transition text-emerald-100 hover:text-white">
-                <div class="w-12 flex justify-center flex-shrink-0">
+                <div class="w-12 flex justify-center flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <span class="text-xl">🔒</span>
                 </div>
                 <span class="font-medium text-sm ml-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">Privacidade</span>
@@ -133,5 +151,6 @@
 
     </div>
 
+    @stack('scripts')
 </body>
 </html>
