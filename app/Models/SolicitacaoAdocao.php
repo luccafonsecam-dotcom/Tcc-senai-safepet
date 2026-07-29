@@ -21,11 +21,11 @@ class SolicitacaoAdocao extends Model
         'tempo_sozinho',
         'tem_outros_pets',
         'motivo_adocao',
-        'status',
         'concordancia_casa',
         'consciencia_financeira',
         'plano_viagem',
         'comportamento_animal',
+        'status',
     ];
 
     public function usuario()

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\AtualizarPerfilRequest; 
 
 class PerfilController extends Controller
 {
@@ -12,6 +12,7 @@ class PerfilController extends Controller
      */
     public function meusDados()
     {
+        // O código original da sua função voltou inteiro para cá
         $usuario = Auth::user();
 
         return view('candidato.meus-dados', compact('usuario'));
@@ -20,18 +21,14 @@ class PerfilController extends Controller
     /**
      * Atualiza os dados de endereço do usuário logado.
      */
-    public function atualizar(Request $request)
+  public function atualizar(AtualizarPerfilRequest $request)
     {
-        $dados = $request->validate([
-            'cep' => 'required|string|max:10',
-            'logradouro' => 'required|string',
-            'numero' => 'required|string',
-            'bairro' => 'required|string',
-            'cidade' => 'required|string',
-            'uf' => 'required|string|max:2',
-        ]);
-
-        Auth::user()->update($dados);
+        // Esta linha abaixo ao avisa ao VS Code 
+        // exatamente qual é o tipo de usuário que estamos usando.
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        
+        $user->update($request->validated());
 
         return redirect()->route('perfil.meusDados')->with('sucesso', 'Seus dados foram atualizados com sucesso!');
     }

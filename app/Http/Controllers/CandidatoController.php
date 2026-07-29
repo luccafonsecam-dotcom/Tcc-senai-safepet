@@ -54,7 +54,7 @@ class CandidatoController extends Controller
         ]);
 
         // Cria a solicitação pendente de análise
-        SolicitacaoAdocao::create([
+       SolicitacaoAdocao::create([
             'user_id' => Auth::id(),
             'animal_id' => $animal->id,
             'cep' => $dados['cep'],
@@ -73,7 +73,6 @@ class CandidatoController extends Controller
             'motivo_adocao' => $dados['descricao'],
             'status' => 'pendente'
         ]);
-
         // Altera o status do animal para retirar da vitrine pública imediatamente
         $animal->update(['status' => 'em_triagem']);
 

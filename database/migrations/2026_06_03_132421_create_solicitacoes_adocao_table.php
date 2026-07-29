@@ -25,7 +25,13 @@ return new class extends Migration
             $table->string('tipo_residencia');
             $table->string('tempo_sozinho');
             $table->string('tem_outros_pets');
-            $table->text('motivo_adocao');
+            $table->string('concordancia_casa')->default('Sim');
+            $table->string('consciencia_financeira')->default('Sim');
+            $table->text('plano_viagem')->nullable();
+            $table->text('comportamento_animal')->nullable();
+            
+            // Nome padronizado para bater com o Model e Controller!
+            $table->text('motivo_adocao'); 
             
             $table->string('status')->default('pendente');
             $table->timestamps();

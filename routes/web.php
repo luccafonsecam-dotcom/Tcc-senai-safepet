@@ -8,6 +8,8 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnuncioController;
 use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+// 1. Importamos o nosso segurança aqui no topo!
+use App\Http\Middleware\CheckAdmin; 
 
 // 🐶 Vitrine (Página Inicial)
 Route::get('/', [VitrineController::class, 'index'])->name('vitrine.index');
@@ -15,7 +17,7 @@ Route::get('/animal/{id}', [VitrineController::class, 'show'])->name('vitrine.sh
 
 // 📄 Páginas Institucionais (Unificadas e corrigidas)
 Route::get('/termos-de-servico', function () { return view('paginas.termos'); })->name('termos');
-Route::get('/politica-de-privacidade', function () { return view('paginas.politica'); })->name('privacidade'); // 👈 Apontando para o seu arquivo já existente
+Route::get('/politica-de-privacidade', function () { return view('paginas.politica'); })->name('privacidade');
 Route::get('/ongs', function () { return view('paginas.ongs'); })->name('ongs');
 Route::get('/sobre', function () { return view('paginas.sobre'); })->name('sobre');
 
@@ -36,7 +38,6 @@ Route::post('/redefinir-senha', [ForgotPasswordController::class, 'resetPassword
 Route::get('/comunidade/{tipo}', [AnuncioController::class, 'carregarPagina'])->name('comunidade.ver');
 Route::post('/comunidade/{tipo}/salvar', [AnuncioController::class, 'salvarAnuncio'])->name('comunidade.salvar')->middleware('auth');
 
-
 // 🛡️ Rotas Protegidas (Requerem Login)
 Route::middleware(['auth'])->group(function () {
     
@@ -49,8 +50,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/meus-dados', [PerfilController::class, 'meusDados'])->name('perfil.meusDados');
     Route::put('/meus-dados', [PerfilController::class, 'atualizar'])->name('perfil.atualizar');
 
-    // Painel Administrativo (ONG / Protetor)
-    Route::middleware(['can:access-admin'])->group(function () {
+    // 2. Colocamos o porteiro na porta do Painel Administrativo!
+    Route::middleware([CheckAdmin::class])->group(function () {
         
         // Central de Triagem
         Route::get('/admin/triagem', [AdminController::class, 'triagem'])->name('admin.triagem');

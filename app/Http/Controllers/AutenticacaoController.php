@@ -13,7 +13,7 @@ class AutenticacaoController extends Controller
         return view('auth.login');
     }
 
-    public function login(Request $request) {
+   public function login(Request $request) {
         $credenciais = $request->validate([
             'email' => 'required|email',
             'password' => 'required',
@@ -21,7 +21,12 @@ class AutenticacaoController extends Controller
 
         if (Auth::attempt($credenciais)) {
             $request->session()->regenerate();
-            if (Auth::user()->eAdmin()) {
+            
+            // Colocamos o óculos para o VS Code entender de qual Usuário estamos falando
+            /** @var \App\Models\User $usuarioLogado */
+            $usuarioLogado = Auth::user();
+
+            if ($usuarioLogado->eAdmin()) {
                 return redirect()->route('admin.triagem');
             }
             return redirect()->route('vitrine.index');
@@ -34,20 +39,26 @@ class AutenticacaoController extends Controller
         return view('auth.cadastro');
     }
 
-    public function cadastro(Request $request) {
+  public function cadastro(Request $request) {
         $dados = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
-            'tipo' => 'required|in:candidato,administrador' // Facilitador para teste do TCC
+            'tipo' => 'required|in:candidato,administrador' // Facilitador mantido
         ]);
 
-        $usuario = User::create([
+        // 1. Criamos a instância apenas com os dados permitidos no Model (Seguro)
+        $usuario = new User([
             'name' => $dados['name'],
             'email' => $dados['email'],
             'password' => Hash::make($dados['password']),
-            'tipo' => $dados['tipo'],
         ]);
+
+        // 2. Atribuímos o campo restrito de forma explícita, fora do "mass assignment"
+        $usuario->tipo = $dados['tipo']; 
+
+        // 3. Salvamos no banco
+        $usuario->save();
 
         Auth::login($usuario);
 
