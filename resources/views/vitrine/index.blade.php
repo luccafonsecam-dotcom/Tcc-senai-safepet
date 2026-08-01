@@ -3,32 +3,40 @@
 @section('conteudo')
 <div class="max-w-6xl mx-auto space-y-10">
 
-    <!-- 🎯 BOTÕES PRINCIPAIS (CENTRO DA TELA) -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+ <h2 class="text-xl font-extrabold text-gray-800 dark:text-gray-100 -mb-2">Destaques da Vitrine</h2>
+    <div class="w-full bg-white dark:bg-gray-800 rounded-3xl p-6 shadow-sm border border-gray-100 dark:border-gray-700">
+        <div class="flex items-center justify-between mb-4">
+        </div>
         
-        <!-- Card Adotar -->
-        <a href="{{ route('vitrine.index') }}" class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 hover:border-pink-300 dark:hover:border-pink-400 hover:shadow-xl rounded-3xl p-8 flex items-center gap-6 transition duration-300 group">
-            <div class="text-6xl group-hover:scale-110 transition duration-300">🐶</div>
-            <div>
-                <h2 class="text-2xl font-black text-gray-800 dark:text-gray-100 group-hover:text-pink-600 dark:group-hover:text-pink-400 transition">Quero Adotar</h2>
-                <p class="text-gray-500 dark:text-gray-400 text-sm mt-1 leading-relaxed">Encontre um novo melhor amigo que está esperando ansiosamente por você.</p>
+        <div id="carousel-container" class="w-full overflow-hidden relative cursor-grab active:cursor-grabbing">
+            <div id="carousel-track" class="flex gap-4 w-max">
+                @foreach($animais->concat($animais)->concat($animais) as $animal)
+                    <a href="{{ route('vitrine.show', $animal->id) }}" class="inline-block w-48 h-48 rounded-2xl overflow-hidden relative shrink-0 border border-gray-100 dark:border-gray-700 group select-none">
+                        @if($animal->foto_url && (Str::startsWith($animal->foto_url, 'http://') || Str::startsWith($animal->foto_url, 'https://')))
+                            <img src="{{ $animal->foto_url }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 pointer-events-none" alt="{{ $animal->nome }}">
+                        @elseif($animal->foto_url)
+                            <img src="{{ asset('storage/' . $animal->foto_url) }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 pointer-events-none" alt="{{ $animal->nome }}">
+                        @else
+                            <div class="w-full h-full flex items-center justify-center text-3xl bg-gray-50 dark:bg-gray-700 pointer-events-none">🐾</div>
+                        @endif
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex items-end p-3 pointer-events-none">
+                            <span class="text-white font-bold text-sm truncate">{{ $animal->nome }}</span>
+                        </div>
+                    </a>
+                @endforeach
             </div>
-        </a>
-
-        <!-- Card Doar -->
-        <a href="{{ route('comunidade.ver', 'doar') }}" class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 hover:border-amber-300 dark:hover:border-amber-400 hover:shadow-xl rounded-3xl p-8 flex items-center gap-6 transition duration-300 group">
-            <div class="text-6xl group-hover:scale-110 transition duration-300">📢</div>
-            <div>
-                <h2 class="text-2xl font-black text-gray-800 dark:text-gray-100 group-hover:text-amber-500 dark:group-hover:text-amber-400 transition">Quero Doar</h2>
-                <p class="text-gray-500 dark:text-gray-400 text-sm mt-1 leading-relaxed">Ajude um animalzinho a encontrar um lar cheio de amor e carinho.</p>
-            </div>
-        </a>
-
+        </div>
     </div>
 
     <!-- 🏠 CABEÇALHO DA VITRINE DE PETS -->
-    <div class="space-y-2 pt-4 border-t border-gray-200/60 dark:border-gray-700/60">
+    <div class="flex justify-between items-center pt-4 border-t border-gray-200/60 dark:border-gray-700/60">
         <h1 class="text-2xl font-extrabold text-gray-800 dark:text-gray-100 tracking-tight">Animais aguardando adoção 🐾</h1>
+        
+        @can('access-admin')
+            <a href="{{ route('admin.animais.index') }}" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-5 py-2.5 rounded-xl text-sm shadow-sm transition flex items-center gap-2">
+                <span>➕</span> Adicionar Animal
+            </a>
+        @endcan
     </div>
 
     <!-- 🔍 BARRA DE FILTROS INTELIGENTES -->
@@ -68,18 +76,13 @@
             <div class="bg-white dark:bg-gray-800 rounded-3xl overflow-hidden shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-lg transition duration-300 flex flex-col justify-between group">
                 <div>
                     <div class="overflow-hidden relative h-56 bg-gray-50 dark:bg-gray-700">
-                        <div class="overflow-hidden relative h-56 bg-gray-50 dark:bg-gray-700">
-    @if($animal->foto_url && (Str::startsWith($animal->foto_url, 'http://') || Str::startsWith($animal->foto_url, 'https://')))
-        <img src="{{ $animal->foto_url }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" alt="{{ $animal->nome }}">
-    @elseif($animal->foto_url)
-        <img src="{{ asset('storage/' . $animal->foto_url) }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" alt="{{ $animal->nome }}">
-    @else
-        <div class="w-full h-full flex items-center justify-center text-3xl">🐾</div>
-    @endif
-    <span class="absolute top-3 right-3 bg-white/90 dark:bg-gray-900/80 backdrop-blur-sm text-gray-800 dark:text-gray-100 text-xs font-bold px-3 py-1.5 rounded-full shadow-sm">
-        {{ $animal->porte }}
-    </span>
-</div>
+                        @if($animal->foto_url && (Str::startsWith($animal->foto_url, 'http://') || Str::startsWith($animal->foto_url, 'https://')))
+                            <img src="{{ $animal->foto_url }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" alt="{{ $animal->nome }}">
+                        @elseif($animal->foto_url)
+                            <img src="{{ asset('storage/' . $animal->foto_url) }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" alt="{{ $animal->nome }}">
+                        @else
+                            <div class="w-full h-full flex items-center justify-center text-3xl">🐾</div>
+                        @endif
                         <span class="absolute top-3 right-3 bg-white/90 dark:bg-gray-900/80 backdrop-blur-sm text-gray-800 dark:text-gray-100 text-xs font-bold px-3 py-1.5 rounded-full shadow-sm">
                             {{ $animal->porte }}
                         </span>
@@ -108,4 +111,66 @@
     </div>
 
 </div>
+
+@push('scripts')
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const container = document.getElementById("carousel-container");
+    const track = document.getElementById("carousel-track");
+    if (!container || !track) return;
+
+    let scrollPos = 0;
+    let speed = 0.4;
+    let isHovered = false;
+    let isDragging = false;
+    let startX, scrollLeft;
+
+    container.addEventListener("mouseenter", () => isHovered = true);
+    container.addEventListener("mouseleave", () => {
+        isHovered = false;
+        isDragging = false;
+    });
+
+    container.addEventListener("mousedown", (e) => {
+        isDragging = true;
+        startX = e.pageX - container.offsetLeft;
+        scrollLeft = scrollPos;
+    });
+
+    container.addEventListener("mouseup", () => isDragging = false);
+
+    container.addEventListener("mousemove", (e) => {
+        if (!isDragging) return;
+        e.preventDefault();
+        const x = e.pageX - container.offsetLeft;
+        const walk = (x - startX) * 1.5;
+        scrollPos = scrollLeft - walk;
+    });
+
+    container.addEventListener("wheel", (e) => {
+        e.preventDefault();
+        scrollPos += e.deltaY;
+    }, { passive: false });
+
+    function animate() {
+        if (!isHovered && !isDragging) {
+            scrollPos += speed;
+        }
+
+        const singleSetWidth = track.scrollWidth / 3;
+
+        if (scrollPos >= singleSetWidth) {
+            scrollPos -= singleSetWidth;
+        } else if (scrollPos < 0) {
+            scrollPos += singleSetWidth;
+        }
+
+        track.style.transform = `translateX(${-scrollPos}px)`;
+        requestAnimationFrame(animate);
+    }
+
+    requestAnimationFrame(animate);
+});
+</script>
+@endpush
 @endsection
