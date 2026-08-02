@@ -6,6 +6,7 @@ use App\Models\Animal;
 use App\Models\SolicitacaoAdocao;
 use App\Http\Requests\AnimalRequest;
 use App\Http\Requests\ResponderSolicitacaoRequest;
+use Illuminate\Support\Facades\Log;
 
 class AdminController extends Controller
 {
@@ -36,19 +37,18 @@ class AdminController extends Controller
      * Exibe a ficha completa de uma solicitação de adoção
      */
     public function verSolicitacao($id)
-{
-    $solicitacao = SolicitacaoAdocao::with(['usuario', 'animal'])->findOrFail($id);
+    {
+        $solicitacao = SolicitacaoAdocao::with(['usuario', 'animal'])->findOrFail($id);
 
-    // Alterado aqui: de 'admin.ver_solicitacao' para 'admin.detalhes-solicitacao'
-    return view('admin.detalhes-solicitacao', compact('solicitacao'));
-}
+        return view('admin.detalhes-solicitacao', compact('solicitacao'));
+    }
 
     /**
      * Aprova ou Rejeita a solicitação de adoção
      */
     public function responderSolicitacao(ResponderSolicitacaoRequest $request, $id)
     {
-        $solicitacao = SolicitacaoAdocao::findOrFail($id);
+        $solicitacao = SolicitacaoAdocao::with(['usuario', 'animal'])->findOrFail($id);
         $status = $request->input('status');
 
         $solicitacao->update(['status' => $status]);
@@ -56,12 +56,30 @@ class AdminController extends Controller
         if ($status === 'aprovado') {
             $solicitacao->animal->update(['status' => 'adotado']);
             $mensagem = 'Adoção aprovada com sucesso! O pet agora está com status Adotado.';
+            $textoWhatsapp = "🎉 Boas notícias, {$solicitacao->usuario->name}! Sua adoção do pet *{$solicitacao->animal->nome}* foi *APROVADA*! Em breve a equipe da ONG SafePet entrará em contato para combinar a retirada.";
         } else {
             $solicitacao->animal->update(['status' => 'disponivel']);
             $mensagem = 'Adoção recusada. O pet voltou a ficar disponível para a vitrine.';
+            $textoWhatsapp = "Olá, {$solicitacao->usuario->name}. Sua solicitação de adoção do pet *{$solicitacao->animal->nome}* não foi aprovada desta vez. Não desanime, continue acompanhando nossa vitrine para outras oportunidades! 🐾";
         }
 
+        // A chamada para a função existe, mas não fará nada (não causará erros)
+        $this->enviarWhatsapp($solicitacao->usuario->whatsapp, $textoWhatsapp);
+
         return redirect()->route('admin.triagem')->with('sucesso', $mensagem);
+    }
+
+    /**
+     * Função preparada para envio de WhatsApp (Atualmente vazia / Sem Twilio)
+     */
+    private function enviarWhatsapp(?string $numero, string $mensagem): void
+    {
+        if (!$numero) {
+            return;
+        }
+
+        // O código do Twilio foi removido. 
+        // O sistema de adoções funcionará normalmente sem tentar disparar mensagens.
     }
 
     /* =========================================================================

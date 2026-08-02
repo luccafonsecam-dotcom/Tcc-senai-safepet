@@ -43,6 +43,7 @@ class AutenticacaoController extends Controller
         $dados = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
+            'whatsapp' => 'required|string|max:20',
             'password' => 'required|string|min:6|confirmed',
             'tipo' => 'required|in:candidato,administrador' // Facilitador mantido
         ]);
@@ -51,6 +52,7 @@ class AutenticacaoController extends Controller
         $usuario = new User([
             'name' => $dados['name'],
             'email' => $dados['email'],
+            'whatsapp' => $dados['whatsapp'],
             'password' => Hash::make($dados['password']),
         ]);
 
