@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Animal;
 use App\Models\SolicitacaoAdocao;
+use App\Models\AnuncioPet;
 use App\Http\Requests\AnimalRequest;
 use App\Http\Requests\ResponderSolicitacaoRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class AdminController extends Controller
@@ -26,9 +28,9 @@ class AdminController extends Controller
         $adocoesSucesso = SolicitacaoAdocao::where('status', 'aprovado')->count();
 
         return view('admin.triagem', compact(
-            'solicitacoes', 
-            'totalPets', 
-            'pendentes', 
+            'solicitacoes',
+            'totalPets',
+            'pendentes',
             'adocoesSucesso'
         ));
     }
@@ -78,7 +80,7 @@ class AdminController extends Controller
             return;
         }
 
-        // O código do Twilio foi removido. 
+        // O código do Twilio foi removido.
         // O sistema de adoções funcionará normalmente sem tentar disparar mensagens.
     }
 
@@ -100,9 +102,9 @@ class AdminController extends Controller
      */
     public function salvarAnimal(AnimalRequest $request)
     {
-        $dados = $request->validated(); 
+        $dados = $request->validated();
 
-        $caminhoFoto = 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=500'; 
+        $caminhoFoto = 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=500';
 
         if ($request->hasFile('foto_url') && $request->file('foto_url')->isValid()) {
             $caminhoFoto = $request->file('foto_url')->store('animais', 'public');
@@ -110,7 +112,7 @@ class AdminController extends Controller
 
         $dados['foto_url'] = $caminhoFoto;
         Animal::create($dados);
-        
+
         return redirect()->route('admin.animais.index')->with('sucesso', 'Animal cadastrado com sucesso!');
     }
 
@@ -143,5 +145,36 @@ class AdminController extends Controller
         $animal->delete();
 
         return redirect()->route('admin.animais.index')->with('sucesso', 'Animal removido do sistema.');
+    }
+
+    /* =========================================================================
+     *  3. MODERAÇÃO DE ANÚNCIOS DA COMUNIDADE
+     * ========================================================================= */
+
+    /**
+     * Lista os anúncios da comunidade pendentes de aprovação
+     */
+    public function anunciosPendentes()
+    {
+        $anuncios = AnuncioPet::where('status', 'pendente')->with('usuario')->latest()->get();
+
+        return view('admin.aprovacao-anuncios', compact('anuncios'));
+    }
+
+    /**
+     * Aprova ou rejeita um anúncio da comunidade
+     */
+    public function responderAnuncio(Request $request, $id)
+    {
+        $anuncio = AnuncioPet::findOrFail($id);
+        $status = $request->input('status');
+
+        $anuncio->update(['status' => $status]);
+
+        $mensagem = $status === 'aprovado'
+            ? 'Anúncio aprovado e já está visível no site!'
+            : 'Anúncio rejeitado.';
+
+        return redirect()->route('admin.anuncios.index')->with('sucesso', $mensagem);
     }
 }
