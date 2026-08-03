@@ -4,7 +4,7 @@
 <div class="max-w-6xl mx-auto space-y-10">
 
  <h2 class="text-xl font-extrabold text-gray-800 dark:text-gray-100 -mb-2">Destaques da Vitrine</h2>
-    <div class="w-full bg-white dark:bg-gray-800 rounded-3xl p-6 shadow-sm border border-gray-100 dark:border-gray-700">
+    <div class="w-full bg-white dark:bg-gray-800 rounded-3xl p-6 shadow-md dark:shadow-none border border-gray-100 dark:border-gray-700">
         <div class="flex items-center justify-between mb-4">
         </div>
         
@@ -33,15 +33,14 @@
         <h1 class="text-2xl font-extrabold text-gray-800 dark:text-gray-100 tracking-tight">Animais aguardando adoção 🐾</h1>
         
         @can('access-admin')
-            <a href="{{ route('admin.animais.index') }}" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-5 py-2.5 rounded-xl text-sm shadow-sm transition flex items-center gap-2">
+            <a href="{{ route('admin.animais.index') }}" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-5 py-2.5 rounded-xl text-sm shadow-md dark:shadow-none transition flex items-center gap-2">
                 <span>➕</span> Adicionar Animal
             </a>
         @endcan
     </div>
 
     <!-- 🔍 BARRA DE FILTROS INTELIGENTES -->
-  <!-- 🔍 BARRA DE FILTROS INTELIGENTES -->
-<div class="bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700">
+<div class="bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-md dark:shadow-none border border-gray-100 dark:border-gray-700">
     <form action="{{ route('vitrine.index') }}" method="GET" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 items-end">
         <div>
             <label class="block text-xs font-bold text-gray-400 dark:text-gray-500 uppercase mb-1 ml-1">Espécie</label>
@@ -70,8 +69,12 @@
             </select>
         </div>
         <div>
-            <label class="block text-xs font-bold text-gray-400 dark:text-gray-500 uppercase mb-1 ml-1">Buscar pelo nome</label>
-            <input type="text" name="busca" value="{{ request('busca') }}" placeholder="Ex: Thor" class="w-full bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl p-2.5 text-sm font-medium text-gray-700 dark:text-gray-100 focus:ring-2 focus:ring-emerald-500 outline-none transition">
+            <label class="block text-xs font-bold text-gray-400 dark:text-gray-500 uppercase mb-1 ml-1">Sexo</label>
+            <select name="sexo" class="w-full bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl p-2.5 text-sm font-medium text-gray-700 dark:text-gray-100 focus:ring-2 focus:ring-emerald-500 outline-none transition">
+                <option value="">Ambos</option>
+                <option value="Macho" {{ request('sexo') == 'Macho' ? 'selected' : '' }}> Macho</option>
+                <option value="Fêmea" {{ request('sexo') == 'Fêmea' ? 'selected' : '' }}> Fêmea</option>
+            </select>
         </div>
         <div>
             <label class="block text-xs font-bold text-gray-400 dark:text-gray-500 uppercase mb-1 ml-1">Ordenar por</label>
@@ -83,10 +86,10 @@
             </select>
         </div>
         <div class="lg:col-span-5 flex gap-2">
-            <button type="submit" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold p-2.5 rounded-xl text-sm shadow-sm transition cursor-pointer">
+            <button type="submit" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold p-2.5 rounded-xl text-sm shadow-md dark:shadow-none transition cursor-pointer">
                 Filtrar Pets
             </button>
-            @if(request('especie') || request('porte') || request('idade') || request('busca') || request('ordenar'))
+            @if(request('especie') || request('porte') || request('idade') || request('sexo') || request('ordenar'))
                 <a href="{{ route('vitrine.index') }}" class="bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300 font-semibold p-2.5 px-4 rounded-xl text-sm transition flex items-center justify-center" title="Limpar Filtros">✕ Limpar</a>
             @endif
         </div>
@@ -95,7 +98,7 @@
     <!-- 🐕 GRID DE ANIMAIS -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         @forelse($animais as $animal)
-            <div class="bg-white dark:bg-gray-800 rounded-3xl overflow-hidden shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-lg transition duration-300 flex flex-col justify-between group">
+            <div class="bg-white dark:bg-gray-800 rounded-3xl overflow-hidden shadow-md dark:shadow-none border border-gray-100 dark:border-gray-700 hover:shadow-xl dark:hover:shadow-none transition duration-300 flex flex-col justify-between group">
                 <div>
                     <div class="overflow-hidden relative h-56 bg-gray-50 dark:bg-gray-700">
                         @if($animal->foto_url && (Str::startsWith($animal->foto_url, 'http://') || Str::startsWith($animal->foto_url, 'https://')))
@@ -124,7 +127,7 @@
                 </div>
             </div>
         @empty
-            <div class="col-span-full bg-white dark:bg-gray-800 text-center p-16 rounded-3xl border border-gray-100 dark:border-gray-700 space-y-3 shadow-sm">
+            <div class="col-span-full bg-white dark:bg-gray-800 text-center p-16 rounded-3xl border border-gray-100 dark:border-gray-700 space-y-3 shadow-md dark:shadow-none">
                 <span class="text-4xl">😿</span>
                 <h3 class="text-gray-700 dark:text-gray-200 font-bold text-lg">Nenhum pet encontrado</h3>
                 <p class="text-gray-400 dark:text-gray-500 text-sm max-w-xs mx-auto">Não encontramos nenhum animalzinho com essas características no momento.</p>

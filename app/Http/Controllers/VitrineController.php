@@ -27,8 +27,8 @@ class VitrineController extends Controller
         $query->where('idade', $request->idade);
     }
 
-    if ($request->filled('busca')) {
-        $query->where('nome', 'like', '%' . $request->busca . '%');
+    if ($request->filled('sexo')) {
+        $query->where('sexo', $request->sexo);
     }
 
     switch ($request->input('ordenar')) {

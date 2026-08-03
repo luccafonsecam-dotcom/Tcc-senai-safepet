@@ -4,7 +4,7 @@
     <div class="max-w-3xl mx-auto mt-6 space-y-6">
 
         <div
-            class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 transition-colors duration-300">
+            class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md dark:shadow-none border border-gray-100 dark:border-gray-700 transition-colors duration-300">
             <h1 class="text-2xl font-bold text-gray-800 dark:text-gray-100">Meus Dados 📍</h1>
             <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Mantenha seu endereço atualizado para futuras adoções.
             </p>
@@ -18,7 +18,7 @@
         @endif
 
         <div
-            class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 transition-colors duration-300">
+            class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md dark:shadow-none border border-gray-100 dark:border-gray-700 transition-colors duration-300">
 
             {{-- Tabela com os dados atuais --}}
             <h2 class="text-lg font-bold text-gray-700 dark:text-gray-200 mb-4">Dados Atuais</h2>
