@@ -31,12 +31,6 @@
     <!-- 🏠 CABEÇALHO DA VITRINE DE PETS -->
     <div class="flex justify-between items-center pt-4 border-t border-gray-200/60 dark:border-gray-700/60">
         <h1 class="text-2xl font-extrabold text-gray-800 dark:text-gray-100 tracking-tight">Animais aguardando adoção 🐾</h1>
-        
-        @can('access-admin')
-            <a href="{{ route('admin.animais.index') }}" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-5 py-2.5 rounded-xl text-sm shadow-md dark:shadow-none transition flex items-center gap-2">
-                <span>➕</span> Adicionar Animal
-            </a>
-        @endcan
     </div>
 
     <!-- 🔍 BARRA DE FILTROS INTELIGENTES -->

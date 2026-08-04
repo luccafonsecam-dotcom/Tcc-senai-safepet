@@ -7,8 +7,10 @@ use App\Models\SolicitacaoAdocao;
 use App\Models\AnuncioPet;
 use App\Http\Requests\AnimalRequest;
 use App\Http\Requests\ResponderSolicitacaoRequest;
+use App\Mail\SolicitacaoRespondida;
+use App\Mail\AnuncioRespondido;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class AdminController extends Controller
 {
@@ -58,30 +60,15 @@ class AdminController extends Controller
         if ($status === 'aprovado') {
             $solicitacao->animal->update(['status' => 'adotado']);
             $mensagem = 'Adoção aprovada com sucesso! O pet agora está com status Adotado.';
-            $textoWhatsapp = "🎉 Boas notícias, {$solicitacao->usuario->name}! Sua adoção do pet *{$solicitacao->animal->nome}* foi *APROVADA*! Em breve a equipe da ONG SafePet entrará em contato para combinar a retirada.";
         } else {
             $solicitacao->animal->update(['status' => 'disponivel']);
             $mensagem = 'Adoção recusada. O pet voltou a ficar disponível para a vitrine.';
-            $textoWhatsapp = "Olá, {$solicitacao->usuario->name}. Sua solicitação de adoção do pet *{$solicitacao->animal->nome}* não foi aprovada desta vez. Não desanime, continue acompanhando nossa vitrine para outras oportunidades! 🐾";
         }
 
-        // A chamada para a função existe, mas não fará nada (não causará erros)
-        $this->enviarWhatsapp($solicitacao->usuario->whatsapp, $textoWhatsapp);
+        Mail::to($solicitacao->usuario->email)
+            ->send(new SolicitacaoRespondida($solicitacao));
 
         return redirect()->route('admin.triagem')->with('sucesso', $mensagem);
-    }
-
-    /**
-     * Função preparada para envio de WhatsApp (Atualmente vazia / Sem Twilio)
-     */
-    private function enviarWhatsapp(?string $numero, string $mensagem): void
-    {
-        if (!$numero) {
-            return;
-        }
-
-        // O código do Twilio foi removido.
-        // O sistema de adoções funcionará normalmente sem tentar disparar mensagens.
     }
 
     /* =========================================================================
@@ -166,10 +153,13 @@ class AdminController extends Controller
      */
     public function responderAnuncio(Request $request, $id)
     {
-        $anuncio = AnuncioPet::findOrFail($id);
+        $anuncio = AnuncioPet::with('usuario')->findOrFail($id);
         $status = $request->input('status');
 
         $anuncio->update(['status' => $status]);
+
+        Mail::to($anuncio->usuario->email)
+            ->send(new AnuncioRespondido($anuncio));
 
         $mensagem = $status === 'aprovado'
             ? 'Anúncio aprovado e já está visível no site!'
