@@ -2,19 +2,38 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 class NotificationController extends Controller
 {
-    public function marcarComoLidas()
+    /**
+     * Exibe a tela com todas as notificações do usuário logado
+     */
+    public function index()
     {
-        auth()->user()->unreadNotifications->markAsRead();
+        $notificacoes = Auth::user()->notifications;
+
+        return view('notificacoes.index', compact('notificacoes'));
+    }
+
+    /**
+     * Marca uma notificação específica como lida
+     */
+    public function marcarUmaLida($id)
+    {
+        $notificacao = Auth::user()->notifications()->findOrFail($id);
+        $notificacao->markAsRead();
 
         return back();
     }
 
-    public function marcarUmaLida($id)
+    /**
+     * Marca todas as notificações não lidas do usuário como lidas
+     */
+    public function marcarComoLidas(Request $request)
     {
-        $notificacao = auth()->user()->notifications()->findOrFail($id);
-        $notificacao->markAsRead();
+        Auth::user()->unreadNotifications->markAsRead();
 
         return back();
     }
