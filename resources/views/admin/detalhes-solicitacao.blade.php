@@ -73,34 +73,72 @@
                 </div>
             </div>
 
-            @if($solicitacao->status === 'pendente')
-                <div class="bg-gray-50 dark:bg-gray-800/60 p-4 rounded-2xl border border-gray-200 dark:border-gray-700 flex flex-col sm:flex-row items-center justify-between gap-4 transition-colors duration-300">
-                    <div class="text-sm text-gray-500 dark:text-gray-400 text-center sm:text-left">
-                        👉 <strong>Avaliador:</strong> Revise as informações acima antes de tomar uma decisão.
-                    </div>
-                    <div class="flex gap-3 w-full sm:w-auto justify-end">
-                        <form action="{{ route('admin.solicitacao.responder', $solicitacao->id) }}" method="POST">
-                            @csrf
-                            <input type="hidden" name="status" value="rejeitado">
-                            <button type="submit" class="bg-red-50 dark:bg-red-950/30 hover:bg-red-100 dark:hover:bg-red-900/40 text-red-600 dark:text-red-400 px-5 py-2.5 rounded-xl font-bold text-sm border border-red-200 dark:border-red-900/60 transition shadow-sm">
-                                Recusar Pedido
-                            </button>
-                        </form>
+           @if($solicitacao->status === 'pendente')
+    <div class="bg-gray-50 dark:bg-gray-800/60 p-4 rounded-2xl border border-gray-200 dark:border-gray-700 flex flex-col sm:flex-row items-center justify-between gap-4 transition-colors duration-300">
+        <div class="text-sm text-gray-500 dark:text-gray-400 text-center sm:text-left">
+            👉 <strong>Avaliador:</strong> Revise as informações acima antes de tomar uma decisão.
+        </div>
+        <div class="flex gap-3 w-full sm:w-auto justify-end">
+            <button type="button" onclick="abrirModalRecusa()" class="bg-red-50 dark:bg-red-950/30 hover:bg-red-100 dark:hover:bg-red-900/40 text-red-600 dark:text-red-400 px-5 py-2.5 rounded-xl font-bold text-sm border border-red-200 dark:border-red-900/60 transition shadow-sm">
+                Recusar Pedido
+            </button>
 
-                        <form action="{{ route('admin.solicitacao.responder', $solicitacao->id) }}" method="POST">
-                            @csrf
-                            <input type="hidden" name="status" value="aprovado">
-                            <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2.5 rounded-xl font-bold text-sm shadow-sm transition">
-                                Aprovar Adoção! 🎉
-                            </button>
-                        </form>
-                    </div>
+            <form action="{{ route('admin.solicitacao.responder', $solicitacao->id) }}" method="POST">
+                @csrf
+                <input type="hidden" name="status" value="aprovado">
+                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2.5 rounded-xl font-bold text-sm shadow-sm transition">
+                    Aprovar Adoção!
+                </button>
+            </form>
+        </div>
+    </div>
+
+    {{-- MODAL DE RECUSA COM JUSTIFICATIVA --}}
+    <div id="modalRecusa" class="fixed inset-0 z-50 hidden bg-gray-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-gray-800 w-full max-w-md rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700 p-6">
+            <h3 class="text-xl font-bold text-gray-800 dark:text-gray-100 mb-4">Motivo da Recusa</h3>
+
+            <form action="{{ route('admin.solicitacao.responder', $solicitacao->id) }}" method="POST" class="space-y-4">
+                @csrf
+                <input type="hidden" name="status" value="rejeitado">
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                        Justificativa <span class="text-red-500">*</span>
+                    </label>
+                    <textarea name="justificativa" rows="4" required
+                        class="w-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded p-2 text-sm text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-red-500"
+                        placeholder="Ex: Muro muito baixo, incompatibilidade com outros pets...">{{ old('justificativa') }}</textarea>
+                    @error('justificativa')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
-            @else
-                <div class="p-4 rounded-2xl text-center text-sm font-bold transition-colors duration-300 {{ $solicitacao->status === 'aprovado' ? 'bg-green-50 dark:bg-green-950/40 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-900/60' : 'bg-red-50 dark:bg-red-950/40 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-900/60' }}">
-                    Essa solicitação já foi finalizada com o status: {{ strtoupper($solicitacao->status) }}
+
+                <div class="flex justify-end gap-2 pt-2">
+                    <button type="button" onclick="fecharModalRecusa()" class="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm font-medium rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-red-700 transition shadow-sm">
+                        Confirmar Recusa
+                    </button>
                 </div>
-            @endif
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function abrirModalRecusa() {
+            document.getElementById('modalRecusa').classList.remove('hidden');
+        }
+        function fecharModalRecusa() {
+            document.getElementById('modalRecusa').classList.add('hidden');
+        }
+    </script>
+@else
+    <div class="p-4 rounded-2xl text-center text-sm font-bold transition-colors duration-300 {{ $solicitacao->status === 'aprovado' ? 'bg-green-50 dark:bg-green-950/40 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-900/60' : 'bg-red-50 dark:bg-red-950/40 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-900/60' }}">
+        Essa solicitação já foi finalizada com o status: {{ strtoupper($solicitacao->status) }}
+    </div>
+@endif
 
         </div>
     </div>
