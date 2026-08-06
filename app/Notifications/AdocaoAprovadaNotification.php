@@ -2,53 +2,35 @@
 
 namespace App\Notifications;
 
+use App\Models\SolicitacaoAdocao;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
 class AdocaoAprovadaNotification extends Notification
 {
     use Queueable;
 
-    /**
-     * Create a new notification instance.
-     */
-    public function __construct()
+    public function __construct(protected SolicitacaoAdocao $solicitacao)
     {
-        //
     }
 
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @return array<int, string>
-     */
     public function via(object $notifiable): array
     {
-        return ['mail'];
+        return ['database'];
     }
 
-    /**
-     * Get the mail representation of the notification.
-     */
-    public function toMail(object $notifiable): MailMessage
-    {
-        return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
-    }
-
-    /**
-     * Get the array representation of the notification.
-     *
-     * @return array<string, mixed>
-     */
-    public function toArray(object $notifiable): array
+    public function toDatabase(object $notifiable): array
     {
         return [
-            //
+            'tipo' => 'adocao_aprovada',
+            'solicitacao_id' => $this->solicitacao->id,
+            'animal_id' => $this->solicitacao->animal_id,
+            'animal_nome' => $this->solicitacao->animal->nome,
+            'titulo' => 'Sua adoção foi aprovada! 🎉',
+            'mensagem' => "Boas notícias! Sua solicitação para adotar {$this->solicitacao->animal->nome} foi aprovada. Providencie a retirada com os dados da ONG abaixo.",
+            'ong_endereco' => config('ong.endereco'),
+            'ong_whatsapp' => config('ong.whatsapp'),
+            'ong_horario' => config('ong.horario'),
         ];
     }
 }

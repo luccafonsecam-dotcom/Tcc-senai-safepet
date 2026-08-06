@@ -62,6 +62,7 @@ Route::middleware(['auth'])->group(function () {
     // 🔔 Notificações Internas (In-App)
     Route::post('/notificacoes/marcar-lidas', [NotificationController::class, 'marcarComoLidas'])->name('notificacoes.marcarLidas');
     Route::post('/notificacoes/{id}/marcar-lida', [NotificationController::class, 'marcarUmaLida'])->name('notificacoes.marcarUmaLida');
+    Route::get('/notificacoes', [NotificationController::class, 'index'])->name('notificacoes.index');
 
     // 2. Colocamos o porteiro na porta do Painel Administrativo!
     Route::middleware([CheckAdmin::class])->group(function () {
