@@ -9,6 +9,10 @@
     <link rel="icon" type="image/svg+xml"
         href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cellipse cx='50' cy='68' rx='26' ry='22' fill='%23059669'/%3E%3Cellipse cx='20' cy='38' rx='12' ry='15' fill='%23059669'/%3E%3Cellipse cx='46' cy='22' rx='12' ry='16' fill='%23059669'/%3E%3Cellipse cx='74' cy='26' rx='12' ry='15' fill='%23059669'/%3E%3Cellipse cx='90' cy='46' rx='11' ry='14' fill='%23059669' transform='rotate(20 90 46)'/%3E%3C/svg%3E">
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -43,13 +47,42 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
+
+        .bg-pet-pattern {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cg fill='%23065f46' fill-opacity='0.09'%3E%3Cellipse cx='50' cy='66' rx='17' ry='13'/%3E%3Cellipse cx='30' cy='42' rx='7' ry='9'/%3E%3Cellipse cx='46' cy='30' rx='7' ry='9'/%3E%3Cellipse cx='64' cy='30' rx='7' ry='9'/%3E%3Cellipse cx='78' cy='44' rx='7' ry='9' transform='rotate(18 78 44)'/%3E%3C/g%3E%3C/svg%3E");
+            background-repeat: repeat;
+            background-size: 130px 130px;
+            background-attachment: fixed;
+        }
+
+        .dark .bg-pet-pattern {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cg fill='%23ffffff' fill-opacity='0.045'%3E%3Cellipse cx='50' cy='66' rx='17' ry='13'/%3E%3Cellipse cx='30' cy='42' rx='7' ry='9'/%3E%3Cellipse cx='46' cy='30' rx='7' ry='9'/%3E%3Cellipse cx='64' cy='30' rx='7' ry='9'/%3E%3Cellipse cx='78' cy='44' rx='7' ry='9' transform='rotate(18 78 44)'/%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .font-brand {
+            font-family: 'Fredoka', sans-serif;
+        }
+
+        .scrollbar-hide a svg {
+            transition: transform 0.2s ease;
+        }
+
+        .scrollbar-hide a:hover svg {
+            animation: wag 0.5s ease;
+        }
+
+        @keyframes wag {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-16deg); }
+            75% { transform: rotate(16deg); }
+        }
     </style>
 
     @stack('styles')
 </head>
 
 <body
-    class="bg-gray-50 dark:bg-gray-900 font-sans antialiased flex min-h-screen overflow-x-hidden transition-colors duration-300">
+    class="bg-[#F0F1F0] dark:bg-gray-900 bg-pet-pattern font-sans antialiased flex min-h-screen overflow-x-hidden transition-colors duration-300">
 
     <aside
         class="w-20 hover:w-64 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white flex flex-col fixed h-full z-50 shadow-[8px_0_30px_rgba(0,0,0,0.25)] dark:shadow-2xl transition-all duration-300 ease-in-out overflow-hidden group">
@@ -66,7 +99,7 @@
                 </svg>
             </div>
             <span
-                class="text-2xl font-black tracking-tight text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap ml-4">
+                class="text-2xl font-bold font-brand tracking-tight text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap ml-4">
                 SafePet
             </span>
         </a>

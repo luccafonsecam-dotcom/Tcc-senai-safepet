@@ -9,6 +9,8 @@ use App\Http\Requests\AnimalRequest;
 use App\Http\Requests\ResponderSolicitacaoRequest;
 use App\Mail\SolicitacaoRespondida;
 use App\Mail\AnuncioRespondido;
+use App\Notifications\AdocaoAprovadaNotification;
+use App\Notifications\AdocaoRecusadaNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
@@ -60,11 +62,20 @@ class AdminController extends Controller
         if ($status === 'aprovado') {
             $solicitacao->animal->update(['status' => 'adotado']);
             $mensagem = 'Adoção aprovada com sucesso! O pet agora está com status Adotado.';
+
+            // 🔔 Notificação interna (in-app) com os dados da ONG
+            $solicitacao->usuario->notify(new AdocaoAprovadaNotification($solicitacao));
         } else {
             $solicitacao->animal->update(['status' => 'disponivel']);
             $mensagem = 'Adoção recusada. O pet voltou a ficar disponível para a vitrine.';
+
+            // 🔔 Notificação interna (in-app) com a justificativa do admin
+            $solicitacao->usuario->notify(
+                new AdocaoRecusadaNotification($solicitacao, $request->input('justificativa'))
+            );
         }
 
+        // 📧 E-mail (API já existente do projeto) — continua funcionando normalmente
         Mail::to($solicitacao->usuario->email)
             ->send(new SolicitacaoRespondida($solicitacao));
 

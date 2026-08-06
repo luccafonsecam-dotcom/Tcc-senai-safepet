@@ -7,6 +7,7 @@ use App\Http\Controllers\CandidatoController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnuncioController;
 use App\Http\Controllers\PerfilController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 // 1. Importamos o nosso segurança aqui no topo!
 use App\Http\Middleware\CheckAdmin;
@@ -57,6 +58,10 @@ Route::middleware(['auth'])->group(function () {
     // Perfil / Meus Dados
     Route::get('/meus-dados', [PerfilController::class, 'meusDados'])->name('perfil.meusDados');
     Route::put('/meus-dados', [PerfilController::class, 'atualizar'])->name('perfil.atualizar');
+
+    // 🔔 Notificações Internas (In-App)
+    Route::post('/notificacoes/marcar-lidas', [NotificationController::class, 'marcarComoLidas'])->name('notificacoes.marcarLidas');
+    Route::post('/notificacoes/{id}/marcar-lida', [NotificationController::class, 'marcarUmaLida'])->name('notificacoes.marcarUmaLida');
 
     // 2. Colocamos o porteiro na porta do Painel Administrativo!
     Route::middleware([CheckAdmin::class])->group(function () {

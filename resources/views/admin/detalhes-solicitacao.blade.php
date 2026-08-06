@@ -91,7 +91,7 @@
                             @csrf
                             <input type="hidden" name="status" value="aprovado">
                             <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2.5 rounded-xl font-bold text-sm shadow-sm transition">
-                                Aprovar Adoção! 🎉
+                                Aprovar Adoção!
                             </button>
                         </form>
                     </div>
