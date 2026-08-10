@@ -23,6 +23,15 @@
             @error('email') <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span> @enderror
         </div>
 
+        {{-- Campo: WhatsApp --}}
+        <div>
+            <label class="block text-gray-700 dark:text-gray-300 font-medium mb-1 text-sm">WhatsApp (com DDD)</label>
+            <input type="text" name="whatsapp" required placeholder="Ex: 31999999999"
+                   class="w-full bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg p-2.5 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-colors duration-300 placeholder-gray-400 dark:placeholder-gray-500">
+            <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">Usado para você receber notificações sobre suas solicitações de adoção.</p>
+            @error('whatsapp') <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span> @enderror
+        </div>
+
         {{-- Campo: Perfil de Teste (Destaque sutil mantido em ambos os modos) --}}
         <div>
             <label class="block text-gray-700 dark:text-gray-300 font-medium mb-1 text-sm">Perfil de Teste</label>

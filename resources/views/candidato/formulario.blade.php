@@ -28,10 +28,14 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
                 <div>
                     <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-1">Número</label>
                     <input type="text" id="numero" name="numero" required class="w-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded-lg p-2.5 text-gray-900 dark:!text-white focus:ring-2 focus:ring-indigo-500 outline-none">
+                </div>
+                <div>
+                    <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-1">Complemento</label>
+                    <input type="text" id="complemento" name="complemento" placeholder="Apto, bloco..." class="w-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded-lg p-2.5 text-gray-900 dark:!text-white focus:ring-2 focus:ring-indigo-500 outline-none placeholder-gray-400 dark:placeholder-gray-500">
                 </div>
                 <div>
                     <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-1">Bairro</label>

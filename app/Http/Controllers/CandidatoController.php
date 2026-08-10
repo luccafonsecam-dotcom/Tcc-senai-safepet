@@ -40,37 +40,41 @@ class CandidatoController extends Controller
             'cep' => 'required|string|max:10',
             'logradouro' => 'required|string',
             'numero' => 'required|string',
+            'complemento' => 'nullable|string|max:100',
             'bairro' => 'required|string',
             'cidade' => 'required|string',
             'uf' => 'required|string|max:2',
             'tipo_residencia' => 'required|string',
             'tempo_sozinho' => 'required|string',
-            'tem_outros_pets' => 'required|string',
-            'motivo_adocao' => 'required|string|min:10',
-            'concordancia_casa' => 'required|string',         
-            'consciencia_financeira' => 'required|string',    
-             'plano_viagem' => 'required|string',              
-             'comportamento_animal' => 'required|string',        
-        
-            ]);
+            'outros_pets' => 'required|string',
+            'concordancia_casa' => 'required|string',
+            'consciencia_financeira' => 'required|string',
+            'plano_viagem' => 'required|string',
+            'comportamento_animal' => 'required|string',
+            'descricao' => 'required|string|min:10',
+        ]);
 
         // Cria a solicitação pendente de análise
-        SolicitacaoAdocao::create([
+       SolicitacaoAdocao::create([
             'user_id' => Auth::id(),
             'animal_id' => $animal->id,
             'cep' => $dados['cep'],
             'logradouro' => $dados['logradouro'],
             'numero' => $dados['numero'],
+            'complemento' => $dados['complemento'] ?? null,
             'bairro' => $dados['bairro'],
             'cidade' => $dados['cidade'],
             'uf' => $dados['uf'],
             'tipo_residencia' => $dados['tipo_residencia'],
             'tempo_sozinho' => $dados['tempo_sozinho'],
-            'tem_outros_pets' => $dados['tem_outros_pets'],
-            'motivo_adocao' => $dados['motivo_adocao'],
+            'tem_outros_pets' => $dados['outros_pets'],
+            'concordancia_casa' => $dados['concordancia_casa'],
+            'consciencia_financeira' => $dados['consciencia_financeira'],
+            'plano_viagem' => $dados['plano_viagem'],
+            'comportamento_animal' => $dados['comportamento_animal'],
+            'motivo_adocao' => $dados['descricao'],
             'status' => 'pendente'
         ]);
-
         // Altera o status do animal para retirar da vitrine pública imediatamente
         $animal->update(['status' => 'em_triagem']);
 
